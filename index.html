@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Mikayel's personal website" />
+    <meta name="author" content="Mikayel Melkonyan" />
+    <meta name="keywords" content="personal website" />
+    <title>My Personal Website</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Link to an external CSS stylesheet -->
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to My Personal Website</h1>
+      <nav>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="about">
+        <h2>About Me</h2>
+        <p>
+          Hello, I'm <em>Mikayel Melkonyan</em>, a <b>starting</b> web developer
+          <i><strong>cooking</strong></i> with html. I can be
+          <code> weird </code> <span>sometimes</span>.
+        </p>
+        <!--
+            Maybe style the span later
+        -->
+        <p>Here's some information about me:</p>
+        <ol>
+          <li>Web Developer</li>
+          <li>Designer</li>
+          <li>Back-End Developer</li>
+        </ol>
+      </section>
+
+      <section id="portfolio">
+        <h2>Portfolio</h2>
+        <figure>
+          <img src="Portfoli.jpg" alt="Project 1" />
+          <figcaption>Project 1: SurfStore</figcaption>
+        </figure>
+        <details>
+          <summary>Description</summary>
+          <pre>Project about network modifyable data that had protocols</pre>
+        </details>
+        <figure>
+          <figcaption>Project 2: Zookeeper</figcaption>
+        </figure>
+        <details>
+          <summary>Description</summary>
+          <pre>
+Project about visiting a zoo and providing the most efficient route</pre
+          >
+        </details>
+      </section>
+
+      <section id="contact">
+        <h2>Contact Me</h2>
+        <form>
+          <fieldset>
+            <legend>Feel free to get in touch with me</legend>
+            <label for="name">Name:</label>
+            &nbsp; &nbsp;
+            <input type="text" id="name" name="name" required />
+            <hr />
+
+            <label for="email">Email:</label>
+            &nbsp; &nbsp;
+            <input type="email" id="email" name="email" required />
+            <hr />
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+            <button type="submit">Send</button>
+          </fieldset>
+        </form>
+      </section>
+    </main>
+    <section>
+      <h3>Square Animation Test and Color mix</h3>
+      <style>
+        .parent {
+          background-color: hsla(200, 100%, 50%, 0.5);
+          height: 200px;
+          width: 200px;
+        }
+        .child {
+          background-color: rgba(255, 0, 0, 0.5);
+          height: 50%;
+          width: 50%;
+          animation: left-to-right 1s ease-in forwards infinite alternate;
+        }
+        .parent:hover .child {
+          animation-play-state: paused;
+        }
+        @keyframes left-to-right {
+          0% {
+            transform: translateX(0);
+          }
+          33% {
+            transform: translateY(100%);
+          }
+          66% {
+            transform: translateX(100%) translateY(100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+      </style>
+      <div class="parent">
+        <div class="child"></div>
+      </div>
+    </section>
+    <!--
+            Weird stuff in the div figure out what to do later
+     -->
+    <aside>
+      <h3>Additional Information</h3>
+      <p>Follow me on social media:</p>
+      <a href="https://www.twitter.com/">Twitter</a><br />
+      <a href="https://www.facebook.com/">Facebook</a><br />
+      <a href="https://www.linkedin.com/">LinkedIn</a>
+    </aside>
+
+    <footer>&copy; 2023 My Personal Website &hearts;</footer>
+  </body>
+</html>

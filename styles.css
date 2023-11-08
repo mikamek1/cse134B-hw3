@@ -1,0 +1,180 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+:root {
+    --white-color: #f0f0f0;
+    --off-white:#fff;
+    --black-color: #333;
+    --hover-color: #555;
+    --main-border-color: #ccc;
+  }
+
+  /* Apply a background color to the body */
+  body {
+    background-color: var(--white-color, #f0f0f0);
+    font-family: 'Poppins', Arial, sans-serif;
+  }
+  
+  /* Style the header */
+  header {
+    background-color: var(--black--color, #333);
+    color: var(--white-color, white);
+    margin: 1em;
+    padding: 1em;
+  }
+  
+  header h1 {
+    font-size: 220%;
+  }
+  
+  header nav ul {
+    list-style: none;
+  }
+  
+  header nav ul li {
+
+    font-size: 2.5dvh;
+    margin-right: 1rem;
+    margin-top: 1rem;
+  }
+  header nav ul li:hover {
+    transform: translate(2em, 0);
+  }
+  
+  header nav ul li a {
+    color: var(--white-color, white);
+    text-decoration: none;
+  }
+  
+  /* Style the main content */
+  main {
+    display:flex;
+    flex-flow:row wrap;
+    padding: 2em;
+  }
+  
+  /* Style the "About Me" section */
+  #about {
+    background-color: color-mix(in srgb, #34c9eb 75%, white);
+    font-family: 'Quicksand',Arial,sans-serif;
+    padding: 1.2em;
+    margin-bottom: 1.2em;
+    border: 0.1em solid var(--main-border-color,#ccc);
+  }
+  
+  #about h2 {
+    color: var(--black--color,#333);
+  }
+  
+  #about ol li {
+    margin-top: 1.2em;
+  }
+  
+  /* Style the "Portfolio" section */
+  #portfolio {
+    background-color: var(--off-white,#fff);
+    padding: 1.5em;
+    transition-property: opacity, left;
+    transition-duration: 3s, 5s, 2s, 1s;
+    margin-bottom: 1.5em;
+    border: 0.1em solid #ccc;
+  }
+  
+  #portfolio h2 {
+    color: var(--black--color,#333);
+  }
+  
+  #portfolio figure {
+    margin: 1em 0;
+  }
+  
+  #portfolio img {
+    max-width: 100%;
+  }
+  
+  #portfolio figcaption {
+    font-style: italic;
+  }
+  
+  #portfolio details summary {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  /* Style the "Contact Me" section */
+  #contact {
+    background-color: var(--off-white,#fff);
+    padding: 2em;
+    margin-bottom: 1.5em;
+    margin-right: 1.5em;
+    margin-left: 3em;
+    border: 0.1em solid #ccc;
+  }
+
+  
+  #contact form {
+    margin-right: 1em;
+    padding: 1em;
+  }
+  
+  #contact label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.2em;
+  }
+  
+  #contact input[type="text"],
+  #contact input[type="email"],
+  #contact textarea {
+    width: 90%;
+    padding: 0.3em;
+    margin-bottom: 0.5em;
+  }
+  
+  #contact button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 0.7em 1.4em;
+    cursor: pointer;
+    transition: all 1s ease-out;
+    
+  }
+  
+  #contact button:hover {
+    background-color: var(--off-white-color,#fff);
+    color:var(--black--color,#333)
+  }
+  
+  /* Style the aside section */
+  aside {
+    background-color: var(--off-white,#fff);
+    padding: 1em;
+    border: 0.1em solid #ccc;
+  }
+
+  aside a {
+    text-decoration: none;
+    transition-property: font-size;
+    transition-duration: 3s;
+    transition-delay: 1s;
+  }
+  aside a:hover {
+    text-decoration: underline;
+    font-size: 2em;
+  }
+  
+  /* Style the footer */
+  footer {
+    background-color: color(display-p3 0 1 0);
+    color: var(--white-color,white);
+    text-align: center;
+    padding: 0.7em;
+  }
+  h2:has(+ p){
+    background-color:green;
+  }
+  
+  /* Additional styles */
+  /* You can add more custom styles as needed. */
+  
