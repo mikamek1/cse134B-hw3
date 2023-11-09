@@ -43,17 +43,27 @@
 
       <section id="portfolio">
         <h2>Portfolio</h2>
-        <figure>
-          <img src="Portfoli.jpg" alt="Project 1" />
-          <figcaption>Project 1: SurfStore</figcaption>
-        </figure>
+        <picture id="PortImage">
+          <source
+            sizes="(min-width:300px) 300px,
+           (min-width:600px) 100vw, 600px"
+            srcset="Portfolio.webp 300w, Portfoli.webp 600w"
+            type="image/webp"
+          />
+          <source
+            sizes="(min-width:300px) 300px,
+           (min-width:600px) 100vw, 600px"
+            srcset="Portfolio.png 300w, Portfoli.png 600w"
+            type="image/png"
+          />
+          <img src="Portfolio.jpg" alt="Portfolio image" />
+        </picture>
+        <p>Project 1: Surfstore</p>
         <details>
           <summary>Description</summary>
           <pre>Project about network modifyable data that had protocols</pre>
         </details>
-        <figure>
-          <figcaption>Project 2: Zookeeper</figcaption>
-        </figure>
+        <p>Project 2: Zookeeper</p>
         <details>
           <summary>Description</summary>
           <pre>
