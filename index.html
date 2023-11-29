@@ -8,6 +8,8 @@
     <meta name="keywords" content="personal website" />
     <title>My Personal Website</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="theme-toggle.css" />
+
     <!-- Link to an external CSS stylesheet -->
   </head>
   <body>
@@ -93,42 +95,6 @@ Project about visiting a zoo and providing the most efficient route</pre
         </form>
       </section>
     </main>
-    <section>
-      <h3>Square Animation Test and Color mix</h3>
-      <style>
-        .parent {
-          background-color: hsla(200, 100%, 50%, 0.5);
-          height: 200px;
-          width: 200px;
-        }
-        .child {
-          background-color: rgba(255, 0, 0, 0.5);
-          height: 50%;
-          width: 50%;
-          animation: left-to-right 1s ease-in forwards infinite alternate;
-        }
-        .parent:hover .child {
-          animation-play-state: paused;
-        }
-        @keyframes left-to-right {
-          0% {
-            transform: translateX(0);
-          }
-          33% {
-            transform: translateY(100%);
-          }
-          66% {
-            transform: translateX(100%) translateY(100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-      </style>
-      <div class="parent">
-        <div class="child"></div>
-      </div>
-    </section>
     <!--
             Weird stuff in the div figure out what to do later
      -->
@@ -142,5 +108,6 @@ Project about visiting a zoo and providing the most efficient route</pre
     </aside>
 
     <footer>&copy; 2023 My Personal Website &hearts;</footer>
+    <script src="theme-toggle.js"></script>
   </body>
 </html>

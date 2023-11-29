@@ -10,8 +10,12 @@
   }
 
   /* Apply a background color to the body */
-  body {
+  body.light-mode {
     background-color: var(--white-color, #f0f0f0);
+    font-family: 'Poppins', Arial, sans-serif;
+  }
+  body.dark-mode{
+    background-color: var(--black-color, #333);
     font-family: 'Poppins', Arial, sans-serif;
   }
   

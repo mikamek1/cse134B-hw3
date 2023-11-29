@@ -1,82 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Form</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Form (No JavaScript)</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        text-align: center;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+      button {
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      output {
+        display: block;
+        margin-top: 5px;
+        text-align: center;
+        font-size: 14px;
+      }
+      .error {
+        color: red;
+      }
 
-    form {
-      max-width: 400px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+      .info {
+        color: green;
+      }
+      /* CSS for styling :valid and :invalid states */
+      input:valid {
+        border: 2px solid green;
+      }
+      input:invalid {
+        border: 2px solid red;
+      }
+      .error-message {
+        color: red;
+        animation: fadeOut 3s forwards;
+      }
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-      text-align: center;
-    }
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
 
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-    }
+      .warning {
+        color: orange;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const email = document.getElementById("email");
 
-    button {
-      padding: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
+        email.addEventListener("input", (event) => {
+          if (email.validity.typeMismatch) {
+            addError("email", "no @ in email");
+          } else {
+            email.setCustomValidity("");
+          }
+        });
 
-    button:hover {
-      background-color: #45a049;
-    }
+        const formErrors = [];
 
-    output {
-      display: block;
-      margin-top: 15px;
-      text-align: center;
-      font-size: 14px;
-    }
+        function addError(fieldName, message) {
+          formErrors.push({ field: fieldName, error: message });
+        }
 
-    .error {
-      color: red;
-    }
+        function updateCharacterCount() {
+          const textarea = document.getElementById("comments");
+          const maxLength = textarea.maxLength;
+          const currentLength = textarea.value.length;
+          const remainingCharacters = maxLength - currentLength;
+          const infoMessageArea = document.getElementById("info-message");
 
-    .info {
-      color: green;
-    }
-  </style>
-</head>
-<body>
+          if (remainingCharacters < 10) {
+            infoMessageArea.classList.remove("warning");
+            infoMessageArea.classList.add("error");
+          } else if (remainingCharacters < 20) {
+            infoMessageArea.classList.add("warning");
+            infoMessageArea.classList.remove("error");
+          } else {
+            infoMessageArea.classList.remove("warning", "error");
+          }
 
-  <form action="https://httpbin.org/post" method="post">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+          infoMessageArea.textContent = `${remainingCharacters} characters remaining`;
+        }
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+        function validateField(field) {
+          const value = field.value;
+          const pattern = /^[a-zA-Z0-9\s]+$/;
+          if (value === "") {
+            addError(field.name, "No data entry");
+          } else if (!pattern.test(value)) {
+            flashField(field);
+            addError(field.name, "Illegal character entered");
+          }
+        }
 
-    <label for="comments">Comments:</label>
-    <input type="text" id="comments" name="comments" required>
+        function flashField(field) {
+          field.classList.add("error-flash");
+          setTimeout(() => {
+            field.classList.remove("error-flash");
+          }, 1000);
+        }
 
-    <input type="hidden" name="possible_bot" value="true">
+        document
+          .getElementById("myForm")
+          .addEventListener("submit", function (event) {
+            const fields = this.elements;
 
-    <button type="submit">Submit</button>
-  </form>
+            for (let i = 0; i < fields.length; i++) {
+              if (fields[i].type !== "submit") {
+                validateField(fields[i]);
+              }
+            }
 
-  <output class="error"></output>
-  <output class="info"></output>
+            const formErrorsInput = document.getElementById("form-errors");
+            formErrorsInput.value = JSON.stringify(formErrors);
 
-</body>
+            // For demonstration purposes, prevent form submission.
+            event.preventDefault();
+
+            // AJAX request to https://httpbin.org/post
+            fetch("https://httpbin.org/post", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                form_data: new FormData(this),
+                form_errors: formErrors,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("Server response:", data);
+              })
+              .catch((error) => {
+                console.error("Error during server request:", error);
+              });
+
+            // Now you can send the form data to the server using an AJAX request or by submitting the form.
+            // Replace the following line with your actual form submission logic.
+            console.log("Form submitted with errors:", formErrors);
+          });
+
+        document
+          .getElementById("comments")
+          .addEventListener("input", updateCharacterCount);
+      });
+    </script>
+  </head>
+  <body>
+    <form id="myForm" novalidate>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required />
+
+      <br />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+
+      <br />
+
+      <label for="comments">Comments:</label>
+      <textarea
+        id="comments"
+        name="comments"
+        required
+        maxlength="100"
+      ></textarea>
+      <div id="info-message"></div>
+
+      <br />
+
+      <input type="submit" value="Submit" />
+    </form>
+    <input type="hidden" id="form-errors" name="form-errors" />
+
+    <style>
+      .error-flash {
+        animation: flash 1s;
+      }
+
+      @keyframes flash {
+        0% {
+          background-color: red;
+        }
+        50% {
+          background-color: white;
+        }
+        100% {
+          background-color: red;
+        }
+      }
+    </style>
+  </body>
 </html>
