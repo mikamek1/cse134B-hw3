@@ -1,0 +1,165 @@
+<html>
+<head>
+</head>
+<body>
+    <h1>Rating widget</h1>
+<rating-widget>
+    <style>
+        :root {
+            --star-color: gold; /* Default star color */
+            --unselected-star-color: #ddd; /* Default unselected star color */
+        }
+
+
+        rating-widget {
+            display: inline-block;
+            font-size: 24px; /* Adjust the font size of stars */
+            color: var(--star-color);
+            cursor: pointer;
+        }
+
+
+        rating-widget:hover {
+            color: var(--star-color);
+        }
+
+
+        rating-widget .selected {
+            color: var(--star-color);
+        }
+
+
+        rating-widget .unselected {
+            color: var(--unselected-star-color);
+        }
+
+
+        rating-widget .message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+    <form action = "https://httpbin.org/post" method  = "POST">
+        <label for="rating">How satisfied are you?</label>
+        <input type = "hidden"  name = "question" value = "How satisfied are you?">
+        <input type = "hidden"  name = "sentBy" value = "HTML">
+        <input type = "number"  id = "rating" name  = "rating" min = "1" max = "5" value = "0" required>
+        <button type = "submit">Submit</button>
+    </form>
+    <script>
+        class RatingWidget extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+            }
+   
+            connectedCallback() {
+                const maxRating = parseInt(this.getAttribute('max')) || 5;
+                const threshold = 0.8 * maxRating;
+   
+                this.shadowRoot.innerHTML = `
+                    <style>
+                        :host {
+                            display: inline-block;
+                            font-size: 24px;
+                            color: var(--star-color, gold);
+                            cursor: pointer;
+                        }
+   
+                        :host(:hover) {
+                            color: var(--star-color, gold);
+                        }
+   
+                        .selected {
+                            color: var(--star-color, gold);
+                        }
+   
+                        .unselected {
+                            color: var(--unselected-star-color, #ddd);
+                        }
+   
+                        .message {
+                            margin-top: 10px;
+                            font-weight: bold;
+                        }
+                    </style>
+                    <div class="stars"></div>
+                    <div class="message"></div>
+                `;
+   
+                const starsContainer = this.shadowRoot.querySelector('.stars');
+                const messageContainer = this.shadowRoot.querySelector('.message');
+   
+                for (let i = 1; i <= maxRating; i++) {
+                    const star = document.createElement('span');
+                    star.innerHTML = '&#9733;';
+                    star.classList.add('unselected');
+                    star.setAttribute('data-rating', i);
+                    starsContainer.appendChild(star);
+                }
+   
+                const stars = starsContainer.querySelectorAll('span');
+   
+                stars.forEach(star => {
+                    star.addEventListener('mouseover', this.highlightStars.bind(this));
+                    star.addEventListener('mouseout', this.resetStars.bind(this));
+                    star.addEventListener('click', this.submitRating.bind(this));
+                });
+            }
+   
+            highlightStars(event) {
+                const rating = event.target.getAttribute('data-rating');
+                const stars = this.shadowRoot.querySelectorAll('.stars span');
+   
+                stars.forEach((star, index) => {
+                    if (index < rating) {
+                        star.classList.remove('unselected');
+                        star.classList.add('selected');
+                    } else {
+                        star.classList.remove('selected');
+                        star.classList.add('unselected');
+                    }
+                });
+            }
+   
+            resetStars() {
+                const stars = this.shadowRoot.querySelectorAll('.stars span');
+                stars.forEach(star => star.classList.add('unselected'));
+            }
+   
+            submitRating(event) {
+                const rating = event.target.getAttribute('data-rating');
+                const sentBy = 'JS';
+   
+                fetch('https://httpbin.org/post', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Sent-By': 'JS',
+                    },
+                    body: JSON.stringify({ rating, sentBy }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    this.displayMessage(rating);
+                });
+            }
+   
+            displayMessage(rating) {
+                const messageContainer = this.shadowRoot.querySelector('.message');
+                const threshold = 0.8 * (parseInt(this.getAttribute('max')) || 5);
+   
+                if (rating >= threshold) {
+                    messageContainer.textContent = `Thanks for ${rating} star rating!`;
+                } else {
+                    messageContainer.textContent = `Thanks for your feedback of ${rating} stars. We'll try to do better !`;
+                }
+            }
+        }
+   
+        customElements.define('rating-widget', RatingWidget);
+    </script>
+</rating-widget>
+</body>
+</html>
