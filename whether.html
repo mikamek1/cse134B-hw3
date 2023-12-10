@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Widget</title>
+    <style>
+        weather-widget {
+            display: inline-block;
+
+
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+
+
+<weather-widget>Current Whether Conditions not Available</weather-widget>
+
+
+<script>
+    class WeatherWidget extends HTMLElement {
+        constructor() {
+            super();
+            this.attachShadow({ mode: 'open' });
+        }
+
+
+        connectedCallback() {
+            if (navigator.onLine) {
+                this.fetchWeatherData();
+            } else {
+                this.showOfflineMessage();
+            }
+        }
+
+
+        fetchWeatherData() {
+            const apiUrl = 'https://api.weather.gov/points/32.715736,-117.161087'; // Replace with your latitude and longitude
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const forecastUrl = data.properties.forecast;
+                    return fetch(forecastUrl);
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const currentConditions = data.properties.periods[0];
+                    this.renderWeather(currentConditions);
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
+                    this.showErrorMessage();
+                });
+        }
+
+
+        renderWeather(weatherData) {
+            this.shadowRoot.innerHTML = `
+                <style>
+                    p {
+                        font-size: 17px;
+                        font-family: Arial, sans-serif;
+                        color: Blue;
+                        margin-top: 5px;
+                    }
+                    .weather-icon {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+                </style>
+                <img class="weather-icon" src="${weatherData.icon}" alt="${weatherData.shortForecast}">
+                <p>Temperature: ${weatherData.temperature} ${weatherData.temperatureUnit}</p>
+                    <p>Forecast: ${weatherData.shortForecast}</p>
+                    <p>Wind Speed: ${weatherData.windSpeed}</p>
+                    <p>Wind Direction: ${weatherData.windDirection}</p>
+                    <p>Humidity: ${weatherData.relativeHumidity.value}%</p>
+                    <p>Dewpoint: ${weatherData.dewpoint.value} Celsius</p>
+                    <p>Detailed Forecast: ${weatherData.detailedForecast}</p>
+                   
+
+
+            `;
+        }
+
+
+        showErrorMessage() {
+            this.shadowRoot.innerHTML = '<div>Error fetching weather data</div>';
+        }
+    }
+
+
+    customElements.define('weather-widget', WeatherWidget);
+</script>
+
+
+</body>
+</html>
+
+
+
